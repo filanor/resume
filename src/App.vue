@@ -13,6 +13,7 @@
           :body="block.body"
           v-bind="{ body: block.body }"
         >  </component>
+        <app-loader v-if="loadingBD"></app-loader>
       </div>
     </div>
   </div>
@@ -42,6 +43,7 @@ export default {
   data() {
     return {
       loading: false,
+      loadingBD: false,
       comments: [],
       resume: []
     }
@@ -52,6 +54,7 @@ export default {
   methods: {
     async saveBlock(newBlock) {
       try {
+        this.loadingBD = true
         const response = await fetch(
           "https://vue-resume-week2-default-rtdb.firebaseio.com/resume.json",
           {
@@ -69,6 +72,7 @@ export default {
           type: newBlock.type,
           body: newBlock.body
         })
+        this.loadingBD = false
       } catch (error) {
         console.log(`Ошибка сохранения: ${error}`)
       }

@@ -16,10 +16,11 @@
       <textarea id="value" rows="3" v-model.trim="blockText"></textarea>
     </div>
 
-    <button 
+    <button
       class="btn primary"
       :disabled="!readyToSave"
       @click.prevent="saveBlock"
+      v-if="!loading"
     >Добавить</button>
   </form>
 </template>
