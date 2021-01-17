@@ -12,9 +12,10 @@
           :key="block.id"
           :body="block.body"
           v-bind="{ body: block.body }"
-        >  </component>
-        <app-loader v-if="loadingBD"></app-loader>
+        >
+        </component>
       </div>
+      <app-loader v-if="loadingBD" :className="'loader_black'"></app-loader>
     </div>
   </div>
 
@@ -25,7 +26,7 @@
       </button>
     </p>
 
-    <app-loader v-if="loading"></app-loader>
+    <app-loader v-if="loading" :className="'loader'"></app-loader>
     <app-comments v-else :comments="comments"></app-comments>
   </div>
 </template>
@@ -53,8 +54,8 @@ export default {
   },
   methods: {
     async saveBlock(newBlock) {
+      this.loadingBD = true
       try {
-        this.loadingBD = true
         const response = await fetch(
           "https://vue-resume-week2-default-rtdb.firebaseio.com/resume.json",
           {
@@ -72,17 +73,17 @@ export default {
           type: newBlock.type,
           body: newBlock.body
         })
-        this.loadingBD = false
       } catch (error) {
         console.log(`Ошибка сохранения: ${error}`)
       }
+      this.loadingBD = false
     },
     async loadResume() {
       try {
         const response = await fetch("https://vue-resume-week2-default-rtdb.firebaseio.com/resume.json");
         const data = await response.json();
-        if(Object.keys(data).length != 0){
-          this.resume = Object.keys(data).map( key => {
+        if (data){
+          this.resume = Object.keys(data).map(key => {
             return {
               id: key,
               type: data[key].type,

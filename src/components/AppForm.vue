@@ -20,7 +20,6 @@
       class="btn primary"
       :disabled="!readyToSave"
       @click.prevent="saveBlock"
-      v-if="!loading"
     >Добавить</button>
   </form>
 </template>
